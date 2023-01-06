@@ -2,7 +2,7 @@ FROM python:latest
 
 USER  me
 
-WORKDIR /python-docker
+WORKDIR /python-docker 
 
 COPY requirements.txt requirements.txt
 RUN pip3 install -r requirements.txt
