@@ -1,30 +1,22 @@
-name: CI
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-    
-workflow_dispatch:
+name: Flask CI
 
-    jobs:
-    build-job:
+on: [push, pull_request]
+
+jobs:
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - run: python3 -V
-    
-    test-job:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: python3 teste.py
-      - uses: AppThreat/sast-scan-action@master
-        with:
-          type: "python"
-    
-  deploy-job:
-  runs-on: ubuntu-latest
-  steps:
-          - uses: actions/checkout@v3
-          - run: echo "Finalizado!"
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip
+        pip3 install -r requirements.txt
+    - name: Run Tests
+      run: |
+        python -m unittest discover -s tests

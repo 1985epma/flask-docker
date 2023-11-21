@@ -1,6 +1,0 @@
-version: 2
-updates:
-  - package-ecosystem: "pip" # Tipo de gerenciador de pacotes
-    directory: "/" # Localização do arquivo de dependências
-    schedule:
-      interval: "daily" # Intervalo para checagem de atualizações
