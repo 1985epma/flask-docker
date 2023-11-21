@@ -4,31 +4,27 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+    
+workflow_dispatch:
 
-  workflow_dispatch:
     jobs:
-      build-job:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - run: python3 -V
-        - name: Install dependencies 
-        - run: 
-            python3 -m pip install --upgrade pip setuptools wheel
-            pip3 install flake8 pytest pytest-cov flask
-            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-  
-test-job:
+    build-job:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: python3 app.py
+      - run: python3 -V
+    
+    test-job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: python3 teste.py
       - uses: AppThreat/sast-scan-action@master
         with:
           type: "python"
-
-deploy-job:
-      runs-on: ubuntu-latest
-      steps:
-         - uses: actions/checkout@v3
-          run: echo "Finalizado!"
+    
+  deploy-job:
+  runs-on: ubuntu-latest
+  steps:
+          - uses: actions/checkout@v3
+          - run: echo "Finalizado!"
