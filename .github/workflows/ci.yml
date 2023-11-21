@@ -1,28 +1,57 @@
-name: CI Flask Application
+name: Manual CI Workflow
 
-on: 
+on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true              
+        default: 'warning'          
+      environment:
+        description: 'Environment to run tests on'
+        required: true
+        default: 'staging'
 
 jobs:
-  build-and-test:
-
+  build:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.x'
+        python-version: '3.11.6'
     - name: Install dependencies
       run: |
         python3 -m pip install --upgrade pip
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Run tests
+        pip install -r requirements.txt
+    - name: Build
+      run: echo "Building the project..."
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+    - name: Install dependencies
       run: |
-        # Substitute this with your test command
-        pytest
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Test
+      run: echo "Running tests..."
+      env:
+        LOG_LEVEL: ${{ github.event.inputs.logLevel }}
+        ENVIRONMENT: ${{ github.event.inputs.environment }}
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event.inputs.environment == 'production'
+    steps:
+    - uses: actions/checkout@v2
+    - name: Deploy
+      run: echo "Deploying to production..."
