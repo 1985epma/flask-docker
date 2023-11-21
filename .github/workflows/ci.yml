@@ -10,7 +10,7 @@ on:
       environment:
         description: 'Environment to run tests on'
         required: true
-        default: 'staging'
+        default: 'main'
 
 jobs:
   build:
