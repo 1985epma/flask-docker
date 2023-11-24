@@ -1,0 +1,36 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+*.backup
+*.log
+
+# Docker
+docker-compose.override.yml
+.env
+.env.*
+*Dockerfile.env
+node_modules/
+target/
+*.log
+.docker/
+
+crash.log
+*.tfvars
+.terraformrc
+terraform.rc
+
+__pycache__/
+*.py[cod]
+env/
+venv/
+.venv/
+*.log
+*.sqlite
+.python-version
+
+*.crt
+*.key
+.env
