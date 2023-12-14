@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -26,9 +26,9 @@ jobs:
           npm audit --json > audit-report.json
 
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.x'  # Ou a versão desejada do Python
+          python-version: '3.10'   # Ou a versão desejada do Python
 
       - name: Install Bandit
         run: pip install bandit
