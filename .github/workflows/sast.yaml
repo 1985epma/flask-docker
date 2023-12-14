@@ -16,23 +16,15 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'  # Ou a versão desejada do Python
+          python-version: '3.x'  # Ou a versão desejada do Python
 
-      - name: Install Bandit
-        run: pip install bandit
-
+      - name: Bandit Scan
+        uses: shundor/python-bandit-scan@v1.0
+            
       - name: Run Bandit (SAST)
         run: |
           bandit -r . -f json -o bandit-report.json
         continue-on-error: true
-
-      - name: Set up OWASP ZAP
-        uses: zaproxy/action-full-scan@v0.8.0
-
-      - name: Run OWASP ZAP (DAST)
-        with:
-          target: 'https://www.zaproxy.org/'  # Substitua pela URL do seu aplicativo
-          alertthreshold: 'low'  # Defina o nível de alerta desejado
 
       - name: Upload Reports
         run: |
