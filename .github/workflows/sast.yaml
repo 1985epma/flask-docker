@@ -1,0 +1,32 @@
+name: SAST (Static Application Security Testing)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sast:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x  # Substitua por sua versão desejada
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt  # Instale as dependências do seu projeto, se aplicável
+
+      - name: Run Bandit
+        run: |
+          bandit -r . -f json -o bandit-report.json  # Execute o Bandit e exporte os resultados para um arquivo JSON
+
+      - name: Upload Bandit Report
+        uses: actions/upload-artifact@v2
+        with:
+          name: bandit-report
+          path: bandit-report.json
